@@ -1,26 +1,17 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Firebase
 on:
   push:
-    branches: [ "main" ] # main 브랜치에 푸시될 때 실행
+    branches: [ "main" ]
 
 jobs:
-  build_and_deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. GitHub 저장소에서 코드 가져오기
       - uses: actions/checkout@v4
-
-      # 2. 의존성 설치 및 프로젝트 빌드
-      - name: Install Dependencies and Build
-        run: |
-          npm install
-          npm run build
-
-      # 3. Firebase Hosting으로 배포
-      - name: Deploy to Firebase
+      - run: npm install && npm run build
+      - name: Firebase Deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: your-project-id # 여기에 본인의 Firebase 프로젝트 ID를 적으세요
-          channelId: live # 실전 배포 채널
+          projectId: plantiaworld
